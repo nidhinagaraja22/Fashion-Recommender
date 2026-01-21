@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fashion Recommend</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f6f6f6;
+            color: #333;
+        }
+
+        header {
+            background: #111;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-card h2 {
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #111;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            margin: 10px 0 5px;
+        }
+
+        .card p {
+            margin: 0 0 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #111;
+            color: #fff;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Fashion Recommend</h1>
+        <p>Get outfit ideas based on your style and occasion</p>
+    </header>
+
+    <div class="container">
+        <div class="form-card">
+            <h2>Tell us your preference</h2>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender">
+                    <option value="men">Men</option>
+                    <option value="women">Women</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="occasion">Occasion</label>
+                <select id="occasion">
+                    <option value="casual">Casual</option>
+                    <option value="formal">Formal</option>
+                    <option value="party">Party</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="season">Season</label>
+                <select id="season">
+                    <option value="summer">Summer</option>
+                    <option value="winter">Winter</option>
+                    <option value="spring">Spring</option>
+                </select>
+            </div>
+            <button onclick="recommendFashion()">Get Recommendation</button>
+        </div>
+
+        <div id="results" class="results"></div>
+    </div>
+
+    <footer>
+        <p>© 2026 Fashion Recommend</p>
+    </footer>
+
+    <script>
+        const fashionData = [
+            {
+                gender: 'men', occasion: 'casual', season: 'summer',
+                title: 'T-shirt & Denim',
+                desc: 'Light cotton t-shirt with slim-fit jeans',
+                img: 'https://images.unsplash.com/photo-1520975922284-7b958ef3a6f8'
+            },
+            {
+                gender: 'men', occasion: 'formal', season: 'winter',
+                title: 'Suit & Overcoat',
+                desc: 'Classic suit with a warm overcoat',
+                img: 'https://images.unsplash.com/photo-1521335629791-ce4aec67dd53'
+            },
+            {
+                gender: 'women', occasion: 'casual', season: 'summer',
+                title: 'Floral Dress',
+                desc: 'Comfortable floral dress for daily wear',
+                img: 'https://images.unsplash.com/photo-1520962917961-7f4a2c8f07f0'
+            },
+            {
+                gender: 'women', occasion: 'party', season: 'winter',
+                title: 'Evening Gown',
+                desc: 'Elegant gown for night parties',
+                img: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e'
+            }
+        ];
+
+        function recommendFashion() {
+            const gender = document.getElementById('gender').value;
+            const occasion = document.getElementById('occasion').value;
+            const season = document.getElementById('season').value;
+
+            const results = fashionData.filter(item =>
+                item.gender === gender &&
+                item.occasion === occasion &&
+                item.season === season
+            );
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (results.length === 0) {
+                resultsDiv.innerHTML = '<p>No exact match found. Try different options.</p>';
+                return;
+            }
+
+            results.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+          <img src="${item.img}" alt="${item.title}">
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+        `;
+                resultsDiv.appendChild(card);
+            });
+        }
+    </script>
+</body>
+
+</html>
